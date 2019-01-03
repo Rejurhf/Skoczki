@@ -130,8 +130,8 @@ package body Sensor_Pak is
     Socket  : Socket_Type;
     Channel : Stream_Access;
     Pawn, Goal : String (1..10);
-    lenP, lenG : Natural := 0;
-    PawnCorr, GoalCorr : Boolean := False;
+    len     : Natural := 0;
+    Flag    : Boolean := False;
     Board : Array2DType :=
                         (0 => (0, 2, 0, 2, 0, 2, 0, 2),
                         1 => (2, 0, 2, 0, 2, 0, 2, 0),
@@ -156,16 +156,46 @@ package body Sensor_Pak is
       Channel := Stream (Socket);
       --  Send message to kontroler
       ArrayToStrPrint(3,4, Board);
-      lenP := 0;
-      while (lenP <= 2 and PawnCorr /= True) loop
-        PawnCorr := False;
-        Get_Line(Pawn, lenP);
-        if (Pawn(1) = 'a') then
-          PawnCorr := True;
+      Ekran.Pisz_XY(1,16, 20*' ', Atryb=>Czysty);
+
+      -- Pozycja pionka
+      Flag := False;
+      while (Flag = False) loop
+        Ekran.Pisz_XY(1,15, 20*' ', Atryb=>Czysty);
+        Ekran.Pisz_XY(1,15, ">: " );
+        Get_Line(Pawn, len);
+        if len >= 2 and ((Pawn(1) >= 'a' and Pawn(1) <= 'h') or
+                         (Pawn(1) >= 'A' and Pawn(1) <= 'H')) then
+          if (Pawn(2) >= '1' and Pawn(2) <= '8') then
+            Flag := True;
+          end if;
+        elsif len >= 2 and (Pawn(1) >= '1' and Pawn(1) <= '8') then
+          if ((Pawn(2) >= 'a' and Pawn(2) <= 'h') or
+              (Pawn(2) >= 'A' and Pawn(2) <= 'H')) then
+            Flag := True;
+          end if;
         end if;
       end loop;
 
-      Ekran.Pisz_XY(10,15, ">: " & Pawn & " " & lenP'Img);
+      -- miejsce gdzie przestawić pionek
+      Flag := False;
+      while (Flag = False) loop
+        Ekran.Pisz_XY(1,16, 20*' ', Atryb=>Czysty);
+        Ekran.Pisz_XY(1,16, ">: " );
+        Get_Line(Goal, len);
+        if len >= 2 and ((Goal(1) >= 'a' and Goal(1) <= 'h') or
+                         (Goal(1) >= 'A' and Goal(1) <= 'H')) then
+          if (Goal(2) >= '1' and Goal(2) <= '8') then
+            Flag := True;
+          end if;
+        elsif len >= 2 and (Goal(1) >= '1' and Goal(1) <= '8') then
+          if ((Goal(2) >= 'a' and Goal(2) <= 'h') or
+              (Goal(2) >= 'A' and Goal(2) <= 'H')) then
+            Flag := True;
+          end if;
+        end if;
+      end loop;
+
       Array2DType'Output (Channel, Board);
       --  Receive and print message from Kontroler
 
