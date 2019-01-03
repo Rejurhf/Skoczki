@@ -18,20 +18,20 @@ RV NO_IMPLEMENTATION_PRAGMAS
 RV NO_OBSOLESCENT_FEATURES
 RV SPARK_05
 
-U ada_main%b		b~kontroler.adb		09c3c01d NE OO PK IL
+U ada_main%b		b~kontroler.adb		9ed20829 NE OO PK IL
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
 W system%s		system.ads		system.ali
 W system.restrictions%s	s-restri.adb		s-restri.ali
 
-U ada_main%s		b~kontroler.ads		6e733b7c EE NE OO PK IL
+U ada_main%s		b~kontroler.ads		f962f348 EE NE OO PK IL
 W system%s		system.ads		system.ali
 
 D ada.ads		20170106103348 76789da1 ada%s
 D a-except.ads		20151016123252 291912d5 ada.exceptions%s
 D a-unccon.ads		20170106103348 31484697 ada.unchecked_conversion%s
-D b~kontroler.ads	20190103111123 2846d778 ada_main%s
-D b~kontroler.adb	20190103111123 130103c2 ada_main%b
+D b~kontroler.ads	20190103173458 bf571f4c ada_main%s
+D b~kontroler.adb	20190103173458 130103c2 ada_main%b
 D system.ads		20170510173650 4635ec04 system%s
 D s-parame.ads		20140801093848 7e2a0d7f system.parameters%s
 D s-restri.ads		20140225151139 1b9d0672 system.restrictions%s

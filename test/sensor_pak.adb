@@ -1,22 +1,14 @@
 -- Rejurhf
 -- 3.01.2019
 
-with Ada.Text_IO;
-use  Ada.Text_IO;
-with Ada.Numerics.Float_Random;
-use Ada.Numerics.Float_Random;
-with Ada.Exceptions;
-use Ada.Exceptions;
-with GNAT.Sockets; use GNAT.Sockets;
-with Ada.Calendar;
-use Ada.Calendar;
+with Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Calendar;
+use  Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Calendar;
 
 package body Sensor_Pak is
 
   task body Sens is
     Nastepny : Time;
     Okres   : constant Duration := 1.2;
-    G       : Generator;
     Address : Sock_Addr_Type;
     Socket  : Socket_Type;
     Channel : Stream_Access;
@@ -28,7 +20,6 @@ package body Sensor_Pak is
                         7 => (1, 0, 1, 0, 1, 0, 1, 0),
                         others => (0, 0, 0, 0, 0, 0, 0, 0));
   begin
-    Reset(G);
     Nastepny := Clock;
     Address.Addr := Addresses (Get_Host_By_Name (Host_Name), 1);
     --Address.Addr := Addresses (Get_Host_By_Address(Inet_Addr("10.0.0.1")),1);

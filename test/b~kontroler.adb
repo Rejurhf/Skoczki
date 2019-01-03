@@ -331,10 +331,10 @@ package body ada_main is
    end;
 
 --  BEGIN Object file/option list
-   --   /mnt/d/Documents/Studia/PWiR/Skoczki/test/kontroler_pak.o
-   --   /mnt/d/Documents/Studia/PWiR/Skoczki/test/kontroler.o
-   --   -L/mnt/d/Documents/Studia/PWiR/Skoczki/test/
-   --   -L/mnt/d/Documents/Studia/PWiR/Skoczki/test/
+   --   /mnt/d/Documents/Studia/Skoczki/test/kontroler_pak.o
+   --   /mnt/d/Documents/Studia/Skoczki/test/kontroler.o
+   --   -L/mnt/d/Documents/Studia/Skoczki/test/
+   --   -L/mnt/d/Documents/Studia/Skoczki/test/
    --   -L/usr/lib/gcc/x86_64-linux-gnu/7/adalib/
    --   -shared
    --   -lgnarl-7

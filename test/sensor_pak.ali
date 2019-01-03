@@ -11,7 +11,6 @@ RV NO_EXCEPTION_HANDLERS
 RV NO_EXCEPTION_PROPAGATION
 RV NO_EXCEPTIONS
 RV NO_FIXED_POINT
-RV NO_FLOATING_POINT
 RV NO_IO
 RV NO_SECONDARY_STACK
 RV NO_STANDARD_STORAGE_POOLS
@@ -26,13 +25,11 @@ RV NO_ELABORATION_CODE
 RV SPARK_05
 RV MAX_TASKS=1
 
-U sensor_pak%b		sensor_pak.adb		9f018cfa OO PK
+U sensor_pak%b		sensor_pak.adb		b9367375 OO PK
 W ada%s			ada.ads			ada.ali
 W ada.calendar%s	a-calend.adb		a-calend.ali
 W ada.calendar.delays%s	a-caldel.adb		a-caldel.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
-W ada.numerics%s	a-numeri.ads		a-numeri.ali
-W ada.numerics.float_random%s  a-nuflra.adb	a-nuflra.ali
 W ada.streams%s		a-stream.adb		a-stream.ali
 W ada.tags%s		a-tags.adb		a-tags.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
@@ -41,7 +38,6 @@ W gnat.sockets%s	g-socket.adb		g-socket.ali
 W system.concat_2%s	s-conca2.adb		s-conca2.ali
 W system.concat_3%s	s-conca3.adb		s-conca3.ali
 W system.img_int%s	s-imgint.adb		s-imgint.ali
-W system.img_real%s	s-imgrea.adb		s-imgrea.ali
 W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 W system.soft_links%s	s-soflin.adb		s-soflin.ali
 W system.stream_attributes%s  s-stratt.adb	s-stratt.ali
@@ -63,8 +59,6 @@ D a-caldel.ads		20140120152337 9f20b83d ada.calendar.delays%s
 D a-except.ads		20151016123252 291912d5 ada.exceptions%s
 D a-finali.ads		20151020095656 bf4f806b ada.finalization%s
 D a-ioexce.ads		20140225151544 e4a01f64 ada.io_exceptions%s
-D a-numeri.ads		20080324174807 bb51c45a ada.numerics%s
-D a-nuflra.ads		20160418104118 4056ab7a ada.numerics.float_random%s
 D a-reatim.ads		20160420090448 a87e2da7 ada.real_time%s
 D a-stream.ads		20141120112812 119b8fb3 ada.streams%s
 D a-tags.ads		20151016130316 01f5e3ef ada.tags%s
@@ -77,7 +71,7 @@ D interfac.ads		20160502101001 5ab55268 interfaces%s
 D i-c.ads		20110801143639 5421119b interfaces.c%s
 D i-cstrea.ads		20140801100435 e53d8b8e interfaces.c_streams%s
 D sensor_pak.ads	20190103101246 e760bbab sensor_pak%s
-D sensor_pak.adb	20190103111106 37d49a00 sensor_pak%b
+D sensor_pak.adb	20190103173519 51b5cef5 sensor_pak%b
 D system.ads		20170510173650 4635ec04 system%s
 D s-atacco.ads		20120515093410 4c36d12f system.address_to_access_conversions%s
 D s-conca2.ads		20140225151544 02a0d7d0 system.concat_2%s
@@ -88,14 +82,12 @@ D s-ficobl.ads		20140718105747 078245e4 system.file_control_block%s
 D s-finmas.ads		20151016130316 7811a767 system.finalization_masters%s
 D s-finroo.ads		20120426095924 4ff27390 system.finalization_root%s
 D s-imgint.ads		20090409150019 02dbe0c2 system.img_int%s
-D s-imgrea.ads		20090409150019 c7a851e2 system.img_real%s
 D s-linux.ads		20150107101203 2fda6ad1 system.linux%s
 D s-multip.ads		20101011073009 38ac9f73 system.multiprocessors%s
 D s-oscons.ads		20180726122552 7b5577db system.os_constants%s
 D s-osinte.ads		20170314092617 ad16bc4a system.os_interface%s
 D s-parame.ads		20140801093848 7e2a0d7f system.parameters%s
 D s-pooglo.ads		20151118103153 ede33ef8 system.pool_global%s
-D s-rannum.ads		20150205111725 99ade2f2 system.random_numbers%s
 D s-secsta.ads		20170112134946 9751b57e system.secondary_stack%s
 D s-soflin.ads		20151020124036 14e1eb6c system.soft_links%s
 D s-stache.ads		20140225151139 a37c21ec system.stack_checking%s
@@ -113,69 +105,59 @@ D s-traent.ads		20140730135025 005bf670 system.traceback_entries%s
 D s-unstyp.ads		20160502101423 34867c83 system.unsigned_types%s
 D s-wchcon.ads		20140718092328 1b7d22d2 system.wch_con%s
 X 1 ada.ads
-16K9*Ada 20e8 21|4r6 5r6 6r6 7r5 8r6 9r5 11r6 12r5
+16K9*Ada 20e8 19|4r6 4r19 4r49 5r6 5r19 5r49
 X 2 a-calend.ads
-36K13*Calendar 395e17 21|11w10 12r9
-44I9*Time<213I9> 21|17r16
-58V13*Clock{44I9} 21|33s17
-102V14*"+"{44I9} 21|55s28
+36K13*Calendar 395e17 19|4w53 5r53
+44I9*Time<213I9> 19|10r16
+58V13*Clock{44I9} 19|23s17
+102V14*"+"{44I9} 19|43s28
 213I9 Time_Rep<long_long_integer>
 X 4 a-except.ads
-54K13*Exceptions 349e19 21|8w10 9r9
-72V13*Exception_Name{string} 21|61s16
-94V13*Exception_Message{string} 21|61s44
-X 7 a-numeri.ads
-16K13*Numerics 32e17 21|6r10 7r9
-X 8 a-nuflra.ads
-41K22*Float_Random 74e30 21|6w19 7r18
-47R9*Generator<39|63R9> 21|19r15
-49F12*Uniformly_Distributed{float}
-51V13*Random{49F12}<39|71p13> 21|49s15
-53U14*Reset<39|100p14> 21|32s5
-X 12 a-textio.ads
-49K13*Text_IO 471e16 21|4w10 5r10
-263U14*Put_Line 21|40s5 41s5 50s7 54s7 60s7 61s7
-X 15 gnat.ads
-34K9*GNAT 37e9 21|10r6 10r24
-X 16 g-socket.ads
-55K14*Sockets 1283e17 21|10w11 10r29
-412I9*Socket_Type<integer> 21|21r15
+54K13*Exceptions 349e19 19|4w23 5r23
+72V13*Exception_Name{string} 19|49s16
+94V13*Exception_Message{string} 19|49s44
+X 10 a-textio.ads
+49K13*Text_IO 471e16 19|4w10 5r10
+263U14*Put_Line 19|30s5 31s5 42s7 48s7 49s7
+X 13 gnat.ads
+34K9*GNAT 37e9 19|4r35 5r35
+X 14 g-socket.ads
+55K14*Sockets 1283e17 19|4w40 5r40
+412I9*Socket_Type<integer> 19|13r15
 479I9*Port_Type<integer>
-505R9*Sock_Addr_Type 508e14 21|20r15
-506r7*Addr{488R9} 21|34m13
-507i7*Port{479I9} 21|39m13
-521V13*Image{string} 21|41s32
-549V13*Addresses{488R9} 21|34s21
-566V13*Get_Host_By_Name{532R9} 21|34s32
-572V13*Host_Name{string} 21|34s50 40s23
-672n7*Socket_Level{671E9} 21|43r32
-684n7*Reuse_Address{681E9} 21|43r47
-816U14*Create_Socket 21|42s5
-853U14*Close_Socket 21|59s7
-856U14*Connect_Socket 21|44s5
-1007U14*Set_Socket_Option 21|43s5
-1020P9*Stream_Access(10|39R9) 21|22r15
-1023V13*Stream{1020P9} 21|47s18
-X 20 sensor_pak.ads
-6K9*Sensor_Pak 12l5 12e15 21|14b14 64l5 64t15
-8t8*Sens 21|16b13 62l7 62t11
-X 21 sensor_pak.adb
-17i5 Nastepny{2|44I9} 33m5 46r19 55m7 55r19
-18o5 Okres{duration} 55r30
-19r5 G{8|47R9} 32r11 49r22
-20r5 Address{16|505R9} 34m5 39m5 41r38 44r29
-21i5 Socket{16|412I9} 42m20 43r24 44r21 47r26 59r21
-22p5 Channel{16|1020P9} 47m7 51r27 53r34
-23f5 Dane{float} 49m7 50r49
-24A10 Array2DType(integer)<integer><integer> 25r13 51r7 53r16
-25a5 Board{24A10} 51r36 53m7 54r49
-58r10 E{4|63R9} 61r32 61r63
-X 22 system.ads
-37K9*System 20|4w6 9r21 22|156e11
+505R9*Sock_Addr_Type 508e14 19|12r15
+506r7*Addr{488R9} 19|24m13
+507i7*Port{479I9} 19|29m13
+521V13*Image{string} 19|31s32
+549V13*Addresses{488R9} 19|24s21
+566V13*Get_Host_By_Name{532R9} 19|24s32
+572V13*Host_Name{string} 19|24s50 30s23
+672n7*Socket_Level{671E9} 19|33r32
+684n7*Reuse_Address{681E9} 19|33r47
+816U14*Create_Socket 19|32s5
+853U14*Close_Socket 19|47s7
+856U14*Connect_Socket 19|34s5
+1007U14*Set_Socket_Option 19|33s5
+1020P9*Stream_Access(8|39R9) 19|14r15
+1023V13*Stream{1020P9} 19|37s18
+X 18 sensor_pak.ads
+6K9*Sensor_Pak 12l5 12e15 19|7b14 52l5 52t15
+8t8*Sens 19|9b13 50l7 50t11
+X 19 sensor_pak.adb
+10i5 Nastepny{2|44I9} 23m5 36r19 43m7 43r19
+11o5 Okres{duration} 43r30
+12r5 Address{14|505R9} 24m5 29m5 31r38 34r29
+13i5 Socket{14|412I9} 32m20 33r24 34r21 37r26 47r21
+14p5 Channel{14|1020P9} 37m7 39r27 41r34
+15A10 Array2DType(integer)<integer><integer> 16r13 39r7 41r16
+16a5 Board{15A10} 39r36 41m7 42r49
+46r10 E{4|63R9} 49r32 49r63
+X 20 system.ads
+37K9*System 18|4w6 9r21 20|156e11
 108I12*Any_Priority{integer}
 109I12*Priority{108I12}
-112i4*Default_Priority{109I12} 20|9r28
-X 43 s-stausa.ads
+112i4*Default_Priority{109I12} 18|9r28
+X 39 s-stausa.ads
 203U14*Initialize 204i<c,__gnat_stack_usage_initialize>22
 268U14*Output_Results 272i<c,__gnat_stack_usage_output_results>22
 
