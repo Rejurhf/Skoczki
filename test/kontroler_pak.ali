@@ -1,0 +1,149 @@
+V "GNAT Lib v7"
+A -g
+A -g
+A -gnatA
+P SS ZX
+
+RN
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTION_PROPAGATION
+RV NO_EXCEPTIONS
+RV NO_FLOATING_POINT
+RV NO_IO
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_STREAMS
+RV NO_TASKING
+RV NO_DEFAULT_INITIALIZATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_ATTRIBUTES
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_IMPLICIT_LOOPS
+RV NO_ELABORATION_CODE
+RV SPARK_05
+RV MAX_TASKS=1
+
+U kontroler_pak%b	kontroler_pak.adb	b845c69a OO PK
+W ada%s			ada.ads			ada.ali
+W ada.exceptions%s	a-except.adb		a-except.ali
+W ada.streams%s		a-stream.adb		a-stream.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W gnat%s		gnat.ads		gnat.ali
+W gnat.sockets%s	g-socket.adb		g-socket.ali
+W system.concat_2%s	s-conca2.adb		s-conca2.ali
+W system.concat_3%s	s-conca3.adb		s-conca3.ali
+W system.img_int%s	s-imgint.adb		s-imgint.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W system.soft_links%s	s-soflin.adb		s-soflin.ali
+W system.stream_attributes%s  s-stratt.adb	s-stratt.ali
+W system.tasking.stages%s  s-tassta.adb		s-tassta.ali
+
+U kontroler_pak%s	kontroler_pak.ads	e4735944 EE OO PK
+W ada.real_time%s	a-reatim.adb		a-reatim.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W system%s		system.ads		system.ali
+W system.parameters%s	s-parame.adb		s-parame.ali
+W system.soft_links%s	s-soflin.adb		s-soflin.ali
+W system.task_info%s	s-tasinf.adb		s-tasinf.ali
+W system.tasking%s	s-taskin.adb		s-taskin.ali
+W system.tasking.stages%s  s-tassta.adb		s-tassta.ali
+
+D ada.ads		20170106103348 76789da1 ada%s
+D a-except.ads		20151016123252 291912d5 ada.exceptions%s
+D a-finali.ads		20151020095656 bf4f806b ada.finalization%s
+D a-ioexce.ads		20140225151544 e4a01f64 ada.io_exceptions%s
+D a-reatim.ads		20160420090448 a87e2da7 ada.real_time%s
+D a-stream.ads		20141120112812 119b8fb3 ada.streams%s
+D a-tags.ads		20151016130316 01f5e3ef ada.tags%s
+D a-textio.ads		20140717063745 386df5d4 ada.text_io%s
+D a-unccon.ads		20170106103348 31484697 ada.unchecked_conversion%s
+D a-uncdea.ads		20070406091342 f15a5ed1 ada.unchecked_deallocation%s
+D gnat.ads		20140801083227 fd2ad2f1 gnat%s
+D g-socket.ads		20170106102806 33c8e0fe gnat.sockets%s
+D interfac.ads		20160502101001 5ab55268 interfaces%s
+D i-c.ads		20110801143639 5421119b interfaces.c%s
+D i-cstrea.ads		20140801100435 e53d8b8e interfaces.c_streams%s
+D kontroler_pak.ads	20190103101255 a246b540 kontroler_pak%s
+D kontroler_pak.adb	20190103111120 38bf7425 kontroler_pak%b
+D system.ads		20170510173650 4635ec04 system%s
+D s-atacco.ads		20120515093410 4c36d12f system.address_to_access_conversions%s
+D s-conca2.ads		20140225151544 02a0d7d0 system.concat_2%s
+D s-conca3.ads		20140225151544 0b705ca5 system.concat_3%s
+D s-crtl.ads		20141120112812 0ebbdb71 system.crtl%s
+D s-exctab.ads		20140225151139 54135002 system.exception_table%s
+D s-ficobl.ads		20140718105747 078245e4 system.file_control_block%s
+D s-finmas.ads		20151016130316 7811a767 system.finalization_masters%s
+D s-finroo.ads		20120426095924 4ff27390 system.finalization_root%s
+D s-imgint.ads		20090409150019 02dbe0c2 system.img_int%s
+D s-linux.ads		20150107101203 2fda6ad1 system.linux%s
+D s-multip.ads		20101011073009 38ac9f73 system.multiprocessors%s
+D s-oscons.ads		20180726122552 7b5577db system.os_constants%s
+D s-osinte.ads		20170314092617 ad16bc4a system.os_interface%s
+D s-parame.ads		20140801093848 7e2a0d7f system.parameters%s
+D s-pooglo.ads		20151118103153 ede33ef8 system.pool_global%s
+D s-secsta.ads		20170112134946 9751b57e system.secondary_stack%s
+D s-soflin.ads		20151020124036 14e1eb6c system.soft_links%s
+D s-stache.ads		20140225151139 a37c21ec system.stack_checking%s
+D s-stausa.ads		20110804134155 017a0a05 system.stack_usage%s
+D s-stalib.ads		20151112104907 09bd3940 system.standard_library%s
+D s-stoele.ads		20140225151139 2dc34a04 system.storage_elements%s
+D s-stopoo.ads		20131010103753 b16154c2 system.storage_pools%s
+D s-stratt.ads		20131014135145 aedef97e system.stream_attributes%s
+D s-tasinf.ads		20140613095942 2b3f8252 system.task_info%s
+D s-taspri.ads		20141120144719 e3ab4429 system.task_primitives%s
+D s-taprop.ads		20140521131406 1dd2e1b6 system.task_primitives.operations%s
+D s-taskin.ads		20170112134946 05d6152c system.tasking%s
+D s-tassta.ads		20170112134946 5a53a7c6 system.tasking.stages%s
+D s-traent.ads		20140730135025 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20160502101423 34867c83 system.unsigned_types%s
+D s-wchcon.ads		20140718092328 1b7d22d2 system.wch_con%s
+X 1 ada.ads
+16K9*Ada 20e8 17|4r6 5r6 6r6 7r5
+X 2 a-except.ads
+54K13*Exceptions 349e19 17|6w10 7r9
+72V13*Exception_Name{string} 17|50s16
+94V13*Exception_Message{string} 17|50s44
+X 8 a-textio.ads
+49K13*Text_IO 471e16 17|4w10 5r10
+263U14*Put_Line 17|32s5 33s5 38s5 43s7 49s22 50s7
+X 11 gnat.ads
+34K9*GNAT 37e9 17|8r6 8r24
+X 12 g-socket.ads
+55K14*Sockets 1283e17 17|8w11 8r29
+412I9*Socket_Type<integer> 17|14r16 15r16
+479I9*Port_Type<integer>
+505R9*Sock_Addr_Type 508e14 17|13r16
+506r7*Addr{488R9} 17|26m13
+507i7*Port{479I9} 17|31m13
+521V13*Image{string} 17|33s31
+549V13*Addresses{488R9} 17|26s21
+566V13*Get_Host_By_Name{532R9} 17|26s32
+572V13*Host_Name{string} 17|26s50 32s23
+672n7*Socket_Level{671E9} 17|35r32
+684n7*Reuse_Address{681E9} 17|35r47
+816U14*Create_Socket 17|34s5
+822U14*Accept_Socket 17|39s5
+847U14*Bind_Socket 17|36s5
+900U14*Listen_Socket 17|37s5
+1007U14*Set_Socket_Option 17|35s5
+1020P9*Stream_Access(6|39R9) 17|16r16
+1023V13*Stream{1020P9} 17|40s16
+X 16 kontroler_pak.ads
+6K9*Kontroler_Pak 10l5 10e18 17|10b14 53l5 53t18
+8t8*Kontrol 17|12b13 51l7 51t14
+X 17 kontroler_pak.adb
+13r5 Address{12|505R9} 26m5 31m5 33r37 36r26 39m36
+14i5 Server{12|412I9} 34m20 35r24 36r18 37r20 39r20
+15i5 Socket{12|412I9} 39m28 40r24
+16p5 Channel{12|1020P9} 40m5 42r34 46r27
+17f5 Dane{float}
+18A10 Array2DType(integer)<integer><integer> 19r13 42r16 46r7
+19a5 Board{18A10} 42m7 43r48 45m7 45r21 46r36
+49r10 E{2|63R9} 50r32 50r63
+X 18 system.ads
+37K9*System 16|4w6 18|156e11
+X 37 s-stausa.ads
+203U14*Initialize 204i<c,__gnat_stack_usage_initialize>22
+268U14*Output_Results 272i<c,__gnat_stack_usage_output_results>22
+
