@@ -98,18 +98,6 @@ package body Sensor_Pak is
           when 4 =>
             Ekran.Pisz_XY(Pos,X+i, "E");
             Pos := Pos + 1;
-          when 5 =>
-            Ekran.Pisz_XY(Pos,X+i, "B");
-            Pos := Pos + 1;
-          when 6 =>
-            Ekran.Pisz_XY(Pos,X+i, "C");
-            Pos := Pos + 1;
-          when 7 =>
-            Ekran.Pisz_XY(Pos,X+i, "D");
-            Pos := Pos + 1;
-          when 8 =>
-            Ekran.Pisz_XY(Pos,X+i, "E");
-            Pos := Pos + 1;
           when others =>
             Ekran.Pisz_XY(Pos,X+i, ".");
             Pos := Pos + 1;
@@ -123,15 +111,43 @@ package body Sensor_Pak is
     Ekran.Pisz_XY(1,15, "");
   end ArrayToStrPrint;
 
+  function GetInput(StartingPoint : Natural) return String is
+    Input : String (1..10);
+    len   : Natural := 0;
+    Flag  : Boolean := False;
+  begin
+    while (Flag = False) loop
+      Ekran.Pisz_XY(1,StartingPoint, 20*' ', Atryb=>Czysty);
+      Ekran.Pisz_XY(1,StartingPoint, ">: " );
+      Get_Line(Input, len);
+      if len >= 2 and ((Input(1) >= 'a' and Input(1) <= 'h') or
+                       (Input(1) >= 'A' and Input(1) <= 'H')) then
+        if (Input(2) >= '1' and Input(2) <= '8') then
+          Flag := True;
+        end if;
+      elsif len >= 2 and (Input(1) >= '1' and Input(1) <= '8') then
+        if ((Input(2) >= 'a' and Input(2) <= 'h') or
+            (Input(2) >= 'A' and Input(2) <= 'H')) then
+          Flag := True;
+        end if;
+      end if;
+    end loop;
+    return Input;
+  end GetInput;
+
+  procedure MovePawn(Board : in out Array2DType) is
+    Pawn,Goal : String (1..10);
+  begin
+    Pawn := GetInput(15);
+    Goal := GetInput(16);
+  end MovePawn;
+
   task body Sens is
     Nastepny : Time;
     Okres   : constant Duration := 1.2;
     Address : Sock_Addr_Type;
     Socket  : Socket_Type;
     Channel : Stream_Access;
-    Pawn, Goal : String (1..10);
-    len     : Natural := 0;
-    Flag    : Boolean := False;
     Board : Array2DType :=
                         (0 => (0, 2, 0, 2, 0, 2, 0, 2),
                         1 => (2, 0, 2, 0, 2, 0, 2, 0),
@@ -158,46 +174,11 @@ package body Sensor_Pak is
       ArrayToStrPrint(3,4, Board);
       Ekran.Pisz_XY(1,16, 20*' ', Atryb=>Czysty);
 
-      -- Pozycja pionka
-      Flag := False;
-      while (Flag = False) loop
-        Ekran.Pisz_XY(1,15, 20*' ', Atryb=>Czysty);
-        Ekran.Pisz_XY(1,15, ">: " );
-        Get_Line(Pawn, len);
-        if len >= 2 and ((Pawn(1) >= 'a' and Pawn(1) <= 'h') or
-                         (Pawn(1) >= 'A' and Pawn(1) <= 'H')) then
-          if (Pawn(2) >= '1' and Pawn(2) <= '8') then
-            Flag := True;
-          end if;
-        elsif len >= 2 and (Pawn(1) >= '1' and Pawn(1) <= '8') then
-          if ((Pawn(2) >= 'a' and Pawn(2) <= 'h') or
-              (Pawn(2) >= 'A' and Pawn(2) <= 'H')) then
-            Flag := True;
-          end if;
-        end if;
-      end loop;
-
-      -- miejsce gdzie przestawić pionek
-      Flag := False;
-      while (Flag = False) loop
-        Ekran.Pisz_XY(1,16, 20*' ', Atryb=>Czysty);
-        Ekran.Pisz_XY(1,16, ">: " );
-        Get_Line(Goal, len);
-        if len >= 2 and ((Goal(1) >= 'a' and Goal(1) <= 'h') or
-                         (Goal(1) >= 'A' and Goal(1) <= 'H')) then
-          if (Goal(2) >= '1' and Goal(2) <= '8') then
-            Flag := True;
-          end if;
-        elsif len >= 2 and (Goal(1) >= '1' and Goal(1) <= '8') then
-          if ((Goal(2) >= 'a' and Goal(2) <= 'h') or
-              (Goal(2) >= 'A' and Goal(2) <= 'H')) then
-            Flag := True;
-          end if;
-        end if;
-      end loop;
+      MovePawn(Board);
 
       Array2DType'Output (Channel, Board);
       --  Receive and print message from Kontroler
+
 
       Board := Array2DType'Input(Channel);
 
