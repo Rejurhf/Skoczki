@@ -1,8 +1,12 @@
 -- Rejurhf
 -- 3.01.2019
 
-with Ada.Text_IO, Ada.Exceptions, GNAT.Sockets;
-use  Ada.Text_IO, Ada.Exceptions, GNAT.Sockets;
+with Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Float_Text_IO,
+  Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded,
+  Ada.Text_IO.Unbounded_Io;
+use Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Float_Text_IO,
+Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded,
+Ada.Text_IO.Unbounded_Io;
 
 package body Kontroler_Pak is
 

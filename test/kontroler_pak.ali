@@ -22,12 +22,17 @@ RV NO_ELABORATION_CODE
 RV SPARK_05
 RV MAX_TASKS=1
 
-U kontroler_pak%b	kontroler_pak.adb	3025a11a OO PK
+U kontroler_pak%b	kontroler_pak.adb	aabc2830 OO PK
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
+W ada.float_text_io%s	a-flteio.ads		a-flteio.ali
 W ada.streams%s		a-stream.adb		a-stream.ali
+W ada.strings%s		a-string.ads		a-string.ali
+W ada.strings.fixed%s	a-strfix.adb		a-strfix.ali
+W ada.strings.unbounded%s  a-strunb.adb		a-strunb.ali
 W ada.tags%s		a-tags.adb		a-tags.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
+W ada.text_io.unbounded_io%s  a-tiunio.ads	a-tiunio.ali
 W gnat%s		gnat.ads		gnat.ali
 W gnat.sockets%s	g-socket.adb		g-socket.ali
 W system.concat_2%s	s-conca2.adb		s-conca2.ali
@@ -49,13 +54,23 @@ W system.tasking%s	s-taskin.adb		s-taskin.ali
 W system.tasking.stages%s  s-tassta.adb		s-tassta.ali
 
 D ada.ads		20170106103348 76789da1 ada%s
+D a-charac.ads		20070912115821 2d3ec45b ada.characters%s
+D a-chlat1.ads		20140225151544 66457d31 ada.characters.latin_1%s
 D a-except.ads		20151016123252 291912d5 ada.exceptions%s
 D a-finali.ads		20151020095656 bf4f806b ada.finalization%s
+D a-flteio.ads		20070406091342 e18a47a0 ada.float_text_io%s
 D a-ioexce.ads		20140225151544 e4a01f64 ada.io_exceptions%s
 D a-reatim.ads		20160420090448 a87e2da7 ada.real_time%s
 D a-stream.ads		20141120112812 119b8fb3 ada.streams%s
+D a-string.ads		20070406091342 90ac6797 ada.strings%s
+D a-strfix.ads		20101008130255 d07c346e ada.strings.fixed%s
+D a-strmap.ads		20140611123156 e8bb714a ada.strings.maps%s
+D a-strunb.ads		20161012122725 ecdfa332 ada.strings.unbounded%s
+D a-suteio.ads		20090409150019 26d8e9aa ada.strings.unbounded.text_io%s
 D a-tags.ads		20151016130316 01f5e3ef ada.tags%s
 D a-textio.ads		20140717063745 386df5d4 ada.text_io%s
+D a-tiflio.ads		20140717063513 56fbda09 ada.text_io.float_io%s
+D a-tiunio.ads		20070406091342 759c6b0c ada.text_io.unbounded_io%s
 D a-unccon.ads		20170106103348 31484697 ada.unchecked_conversion%s
 D a-uncdea.ads		20070406091342 f15a5ed1 ada.unchecked_deallocation%s
 D gnat.ads		20140801083227 fd2ad2f1 gnat%s
@@ -64,9 +79,10 @@ D interfac.ads		20160502101001 5ab55268 interfaces%s
 D i-c.ads		20110801143639 5421119b interfaces.c%s
 D i-cstrea.ads		20140801100435 e53d8b8e interfaces.c_streams%s
 D kontroler_pak.ads	20190103101255 a246b540 kontroler_pak%s
-D kontroler_pak.adb	20190103173324 b0df13a5 kontroler_pak%b
+D kontroler_pak.adb	20190103174820 125f46e8 kontroler_pak%b
 D system.ads		20170510173650 4635ec04 system%s
 D s-atacco.ads		20120515093410 4c36d12f system.address_to_access_conversions%s
+D s-atocou.ads		20151020101020 b45c2d8d system.atomic_counters%s
 D s-conca2.ads		20140225151544 02a0d7d0 system.concat_2%s
 D s-conca3.ads		20140225151544 0b705ca5 system.concat_3%s
 D s-crtl.ads		20141120112812 0ebbdb71 system.crtl%s
@@ -88,6 +104,7 @@ D s-stausa.ads		20110804134155 017a0a05 system.stack_usage%s
 D s-stalib.ads		20151112104907 09bd3940 system.standard_library%s
 D s-stoele.ads		20140225151139 2dc34a04 system.storage_elements%s
 D s-stopoo.ads		20131010103753 b16154c2 system.storage_pools%s
+D s-stposu.ads		20151020120548 97a6219c system.storage_pools.subpools%s
 D s-stratt.ads		20131014135145 aedef97e system.stream_attributes%s
 D s-tasinf.ads		20140613095942 2b3f8252 system.task_info%s
 D s-taspri.ads		20141120144719 e3ab4429 system.task_primitives%s
@@ -98,50 +115,61 @@ D s-traent.ads		20140730135025 005bf670 system.traceback_entries%s
 D s-unstyp.ads		20160502101423 34867c83 system.unsigned_types%s
 D s-wchcon.ads		20140718092328 1b7d22d2 system.wch_con%s
 X 1 ada.ads
-16K9*Ada 20e8 17|4r6 4r19 5r6 5r19
-X 2 a-except.ads
-54K13*Exceptions 349e19 17|4w23 5r23
-72V13*Exception_Name{string} 17|46s16
-94V13*Exception_Message{string} 17|46s44
-X 8 a-textio.ads
-49K13*Text_IO 471e16 17|4w10 5r10
-263U14*Put_Line 17|28s5 29s5 34s5 39s7 45s22 46s7
-X 11 gnat.ads
-34K9*GNAT 37e9 17|4r35 5r35
-X 12 g-socket.ads
-55K14*Sockets 1283e17 17|4w40 5r40
-412I9*Socket_Type<integer> 17|11r16 12r16
+16K9*Ada 20e8 27|4r6 4r19 4r49 5r3 5r16 5r35 6r3 7r5 7r18 7r48 8r1 8r14 8r33
+. 9r1
+X 4 a-except.ads
+54K13*Exceptions 349e19 27|4w23 7r22
+72V13*Exception_Name{string} 27|50s16
+94V13*Exception_Message{string} 27|50s44
+X 6 a-flteio.ads
+20K13*Float_Text_IO[17|46] 27|4w53 7r52
+X 10 a-string.ads
+16K13*Strings 35e16 27|5w7 5r20 5r39 8r5 8r18 8r37
+X 11 a-strfix.ads
+18K21*Fixed 251e22 27|5w28 8r26
+X 13 a-strunb.ads
+76K21*Unbounded 490e26 27|5w47 8r45
+X 16 a-textio.ads
+49K13*Text_IO 471e16 27|4w10 6r7 7r9 9r5
+263U14*Put_Line 27|32s5 33s5 38s5 43s7 49s22 50s7
+X 18 a-tiunio.ads
+25K21*Unbounded_IO 61e29 27|6w15 9r13
+X 21 gnat.ads
+34K9*GNAT 37e9 27|4r35 7r34
+X 22 g-socket.ads
+55K14*Sockets 1283e17 27|4w40 7r39
+412I9*Socket_Type<integer> 27|15r16 16r16
 479I9*Port_Type<integer>
-505R9*Sock_Addr_Type 508e14 17|10r16
-506r7*Addr{488R9} 17|22m13
-507i7*Port{479I9} 17|27m13
-521V13*Image{string} 17|29s31
-549V13*Addresses{488R9} 17|22s21
-566V13*Get_Host_By_Name{532R9} 17|22s32
-572V13*Host_Name{string} 17|22s50 28s23
-672n7*Socket_Level{671E9} 17|31r32
-684n7*Reuse_Address{681E9} 17|31r47
-816U14*Create_Socket 17|30s5
-822U14*Accept_Socket 17|35s5
-847U14*Bind_Socket 17|32s5
-900U14*Listen_Socket 17|33s5
-1007U14*Set_Socket_Option 17|31s5
-1020P9*Stream_Access(6|39R9) 17|13r16
-1023V13*Stream{1020P9} 17|36s16
-X 16 kontroler_pak.ads
-6K9*Kontroler_Pak 10l5 10e18 17|7b14 49l5 49t18
-8t8*Kontrol 17|9b13 47l7 47t14
-X 17 kontroler_pak.adb
-10r5 Address{12|505R9} 22m5 27m5 29r37 32r26 35m36
-11i5 Server{12|412I9} 30m20 31r24 32r18 33r20 35r20
-12i5 Socket{12|412I9} 35m28 36r24
-13p5 Channel{12|1020P9} 36m5 38r34 42r27
-14A10 Array2DType(integer)<integer><integer> 15r13 38r16 42r7
-15a5 Board{14A10} 38m7 39r48 41m7 41r21 42r36
-45r10 E{2|63R9} 46r32 46r63
-X 18 system.ads
-37K9*System 16|4w6 18|156e11
-X 37 s-stausa.ads
+505R9*Sock_Addr_Type 508e14 27|14r16
+506r7*Addr{488R9} 27|26m13
+507i7*Port{479I9} 27|31m13
+521V13*Image{string} 27|33s31
+549V13*Addresses{488R9} 27|26s21
+566V13*Get_Host_By_Name{532R9} 27|26s32
+572V13*Host_Name{string} 27|26s50 32s23
+672n7*Socket_Level{671E9} 27|35r32
+684n7*Reuse_Address{681E9} 27|35r47
+816U14*Create_Socket 27|34s5
+822U14*Accept_Socket 27|39s5
+847U14*Bind_Socket 27|36s5
+900U14*Listen_Socket 27|37s5
+1007U14*Set_Socket_Option 27|35s5
+1020P9*Stream_Access(9|39R9) 27|17r16
+1023V13*Stream{1020P9} 27|40s16
+X 26 kontroler_pak.ads
+6K9*Kontroler_Pak 10l5 10e18 27|11b14 53l5 53t18
+8t8*Kontrol 27|13b13 51l7 51t14
+X 27 kontroler_pak.adb
+14r5 Address{22|505R9} 26m5 31m5 33r37 36r26 39m36
+15i5 Server{22|412I9} 34m20 35r24 36r18 37r20 39r20
+16i5 Socket{22|412I9} 39m28 40r24
+17p5 Channel{22|1020P9} 40m5 42r34 46r27
+18A10 Array2DType(integer)<integer><integer> 19r13 42r16 46r7
+19a5 Board{18A10} 42m7 43r48 45m7 45r21 46r36
+49r10 E{4|63R9} 50r32 50r63
+X 28 system.ads
+37K9*System 26|4w6 28|156e11
+X 48 s-stausa.ads
 203U14*Initialize 204i<c,__gnat_stack_usage_initialize>22
 268U14*Output_Results 272i<c,__gnat_stack_usage_output_results>22
 

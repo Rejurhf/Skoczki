@@ -1,10 +1,82 @@
 -- Rejurhf
 -- 3.01.2019
 
-with Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Calendar;
-use  Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Calendar;
+with Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Calendar,
+  Ada.Float_Text_IO, Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded,
+  Ada.Text_IO.Unbounded_Io;
+use Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Calendar,
+  Ada.Float_Text_IO, Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded,
+  Ada.Text_IO.Unbounded_Io;
 
 package body Sensor_Pak is
+  type Atrybuty is (Czysty, Jasny, Podkreslony, Negatyw, Migajacy, Szary);
+
+  protected Ekran  is
+    procedure Pisz_XY(X,Y: Positive; S: String; Atryb : Atrybuty := Czysty);
+    procedure Pisz_Float_XY(X, Y: Positive;
+                            Num: Float;
+                            Pre: Natural := 3;
+                            Aft: Natural := 2;
+                            Exp: Natural := 0;
+                            Atryb : Atrybuty := Czysty);
+    procedure Czysc;
+    procedure Tlo;
+  end Ekran;
+
+  protected body Ekran is
+    function Atryb_Fun(Atryb : Atrybuty) return String is
+      (case Atryb is
+        when Jasny => "1m", when Podkreslony => "4m", when Negatyw => "7m",
+        when Migajacy => "5m", when Szary => "2m", when Czysty => "0m");
+
+    function Esc_XY(X,Y : Positive) return String is
+      ( (ASCII.ESC & "[" & Trim(Y'Img,Both) & ";" & Trim(X'Img,Both) & "H") );
+
+    procedure Pisz_XY(X,Y: Positive; S: String; Atryb : Atrybuty := Czysty) is
+      Przed : String := ASCII.ESC & "[" & Atryb_Fun(Atryb);
+    begin
+      Put( Przed);
+      Put( Esc_XY(X,Y) & S);
+      Put( ASCII.ESC & "[0m");
+    end Pisz_XY;
+
+    procedure Pisz_Float_XY(X, Y: Positive;
+                            Num: Float;
+                            Pre: Natural := 3;
+                            Aft: Natural := 2;
+                            Exp: Natural := 0;
+                            Atryb : Atrybuty := Czysty) is
+
+      Przed_Str : String := ASCII.ESC & "[" & Atryb_Fun(Atryb);
+    begin
+      Put( Przed_Str);
+      Put( Esc_XY(X, Y) );
+      Put( Num, Pre, Aft, Exp);
+      Put( ASCII.ESC & "[0m");
+    end Pisz_Float_XY;
+
+    procedure Czysc is
+    begin
+      Put(ASCII.ESC & "[2J");
+    end Czysc;
+
+    procedure Tlo is
+    begin
+      Ekran.Czysc;
+      Ekran.Pisz_XY(1,1,"===== Skoczki =====", Atryb=>Migajacy);
+      Ekran.Pisz_XY(2,3,"8 ");
+      Ekran.Pisz_XY(2,4,"7 ");
+      Ekran.Pisz_XY(2,5,"6 ");
+      Ekran.Pisz_XY(2,6,"5 ");
+      Ekran.Pisz_XY(2,7,"4 ");
+      Ekran.Pisz_XY(2,8,"3 ");
+      Ekran.Pisz_XY(2,9,"2 ");
+      Ekran.Pisz_XY(2,10,"1 ");
+      Ekran.Pisz_XY(4,11,"A B C D E F G H");
+      Ekran.Pisz_XY(1,13,"Q-koniec", Atryb=>Podkreslony);
+    end Tlo;
+  end Ekran;
+
 
   task body Sens is
     Nastepny : Time;
