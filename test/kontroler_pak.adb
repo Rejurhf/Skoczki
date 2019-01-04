@@ -74,7 +74,6 @@ package body Kontroler_Pak is
       Ekran.Pisz_XY(2,9,"7 ");
       Ekran.Pisz_XY(2,10,"8 ");
       Ekran.Pisz_XY(4,11,"H G F E D C B A");
-      Ekran.Pisz_XY(1,13,"Q-koniec", Atryb=>Podkreslony);
     end Tlo;
   end Ekran;
 
@@ -85,6 +84,7 @@ package body Kontroler_Pak is
     for i in Integer range 0..7 loop
       Pos := Y;
       for j in Integer range 0..7 loop
+        -- to invert array it is 7-i insted of i
         case Board(7-i,7-j) is
           when 1 =>
             Ekran.Pisz_XY(Pos,X+i, "B");
@@ -104,6 +104,85 @@ package body Kontroler_Pak is
     end loop;
     Ekran.Pisz_XY(1,15, "");
   end ArrayToStrPrint;
+
+  function GetInput(StartingPoint : Natural) return String is
+    Input  : String (1..10);
+    Output : String (1..10);
+    len    : Natural := 0;
+    Flag   : Boolean := False;
+  begin
+    while (Flag = False) loop
+      Ekran.Pisz_XY(1,StartingPoint, 20*' ', Atryb=>Czysty);
+      Ekran.Pisz_XY(1,StartingPoint, ">: " );
+      Get_Line(Input, len);
+      Output := Input;
+      if len >= 2 and ((Input(1) >= 'a' and Input(1) <= 'h') or
+                       (Input(1) >= 'A' and Input(1) <= 'H')) then
+        if (Input(2) >= '1' and Input(2) <= '8') then
+          Flag := True;
+        end if;
+      elsif len >= 2 and (Input(1) >= '1' and Input(1) <= '8') then
+        if ((Input(2) >= 'a' and Input(2) <= 'h') or
+            (Input(2) >= 'A' and Input(2) <= 'H')) then
+          Output(1) := Input(2);
+          Output(2) := Input(1);
+          Flag := True;
+        end if;
+      end if;
+    end loop;
+    return Output;
+  end GetInput;
+
+  function ConvertToPos(C : Character) return Integer is
+  begin
+    case C is
+      when '8' => return 0;
+      when 'A' => return 0;
+      when 'a' => return 0;
+      when '7' => return 1;
+      when 'B' => return 1;
+      when 'b' => return 1;
+      when '6' => return 2;
+      when 'C' => return 2;
+      when 'c' => return 2;
+      when '5' => return 3;
+      when 'D' => return 3;
+      when 'd' => return 3;
+      when '4' => return 4;
+      when 'E' => return 4;
+      when 'e' => return 4;
+      when '3' => return 5;
+      when 'F' => return 5;
+      when 'f' => return 5;
+      when '2' => return 6;
+      when 'G' => return 6;
+      when 'g' => return 6;
+      when '1' => return 7;
+      when 'H' => return 7;
+      when 'h' => return 7;
+      when others => return 7;
+    end case;
+  end ConvertToPos;
+
+  procedure MovePawn(Board : in out Array2DType) is
+    Pawn,Goal : String (1..10);
+    X1,X2,Y1,Y2 : Integer;
+    PawnVal, GoalVal : Integer;
+  begin
+    Ekran.Pisz_XY(1,13, 20*' ', Atryb=>Czysty);
+    Ekran.Pisz_XY(1,14, 20*' ', Atryb=>Czysty);
+    Pawn := GetInput(13);
+    Goal := GetInput(14);
+    X1 := ConvertToPos(Pawn(2));
+    Y1 := ConvertToPos(Pawn(1));
+    X2 := ConvertToPos(Goal(2));
+    Y2 := ConvertToPos(Goal(1));
+
+    PawnVal := Board(X1, Y1);
+    GoalVal := Board(X2, Y2);
+    Board(X1, Y1) := GoalVal;
+    Board(X2, Y2) := PawnVal;
+  end MovePawn;
 
   task body Kontrol is
     Address  : Sock_Addr_Type;
@@ -133,12 +212,13 @@ package body Kontroler_Pak is
     Accept_Socket (Server, Socket, Address);
     Channel := Stream (Socket);
     Ekran.Tlo;
+    ArrayToStrPrint(3,4, Board);
     loop
       Board := Array2DType'Input(Channel);
       ArrayToStrPrint(3,4, Board);
-      -- Put_Line ("Kontroler: -> Board(1,1) =" & Board(1,1)'Img);
+      MovePawn(Board);
+      ArrayToStrPrint(3,4, Board);
       --  Komunikat do: Sensor
-      Board(1,1) := Board(1,1) + 1;
       Array2DType'Output (Channel, Board);
     end loop;
   exception

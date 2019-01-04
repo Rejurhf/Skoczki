@@ -74,7 +74,6 @@ package body Sensor_Pak is
       Ekran.Pisz_XY(2,9,"2 ");
       Ekran.Pisz_XY(2,10,"1 ");
       Ekran.Pisz_XY(4,11,"A B C D E F G H");
-      Ekran.Pisz_XY(1,13,"Q-koniec", Atryb=>Podkreslony);
     end Tlo;
   end Ekran;
 
@@ -169,8 +168,10 @@ package body Sensor_Pak is
     X1,X2,Y1,Y2 : Integer;
     PawnVal, GoalVal : Integer;
   begin
-    Pawn := GetInput(15);
-    Goal := GetInput(16);
+    Ekran.Pisz_XY(1,13, 20*' ', Atryb=>Czysty);
+    Ekran.Pisz_XY(1,14, 20*' ', Atryb=>Czysty);
+    Pawn := GetInput(13);
+    Goal := GetInput(14);
     X1 := ConvertToPos(Pawn(2));
     Y1 := ConvertToPos(Pawn(1));
     X2 := ConvertToPos(Goal(2));
@@ -212,13 +213,10 @@ package body Sensor_Pak is
       Channel := Stream (Socket);
       --  Send message to kontroler
       ArrayToStrPrint(3,4, Board);
-      Ekran.Pisz_XY(1,16, 20*' ', Atryb=>Czysty);
-
       MovePawn(Board);
-
+      ArrayToStrPrint(3,4, Board);
       Array2DType'Output (Channel, Board);
       --  Receive and print message from Kontroler
-
       Board := Array2DType'Input(Channel);
     end loop;
   exception
