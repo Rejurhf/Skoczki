@@ -92,12 +92,6 @@ package body Sensor_Pak is
           when 2 =>
             Ekran.Pisz_XY(Pos,X+i, "C");
             Pos := Pos + 1;
-          when 3 =>
-            Ekran.Pisz_XY(Pos,X+i, "D");
-            Pos := Pos + 1;
-          when 4 =>
-            Ekran.Pisz_XY(Pos,X+i, "E");
-            Pos := Pos + 1;
           when others =>
             Ekran.Pisz_XY(Pos,X+i, ".");
             Pos := Pos + 1;
@@ -225,10 +219,7 @@ package body Sensor_Pak is
       Array2DType'Output (Channel, Board);
       --  Receive and print message from Kontroler
 
-
       Board := Array2DType'Input(Channel);
-
-      Nastepny := Nastepny + Okres;
     end loop;
   exception
     when E:others =>

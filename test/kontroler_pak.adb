@@ -65,15 +65,15 @@ package body Kontroler_Pak is
     begin
       Ekran.Czysc;
       Ekran.Pisz_XY(1,1,"===== Skoczki =====", Atryb=>Migajacy);
-      Ekran.Pisz_XY(2,3,"8 ");
-      Ekran.Pisz_XY(2,4,"7 ");
-      Ekran.Pisz_XY(2,5,"6 ");
-      Ekran.Pisz_XY(2,6,"5 ");
-      Ekran.Pisz_XY(2,7,"4 ");
-      Ekran.Pisz_XY(2,8,"3 ");
-      Ekran.Pisz_XY(2,9,"2 ");
-      Ekran.Pisz_XY(2,10,"1 ");
-      Ekran.Pisz_XY(4,11,"A B C D E F G H");
+      Ekran.Pisz_XY(2,3,"1 ");
+      Ekran.Pisz_XY(2,4,"2 ");
+      Ekran.Pisz_XY(2,5,"3 ");
+      Ekran.Pisz_XY(2,6,"4 ");
+      Ekran.Pisz_XY(2,7,"5 ");
+      Ekran.Pisz_XY(2,8,"6 ");
+      Ekran.Pisz_XY(2,9,"7 ");
+      Ekran.Pisz_XY(2,10,"8 ");
+      Ekran.Pisz_XY(4,11,"H G F E D C B A");
       Ekran.Pisz_XY(1,13,"Q-koniec", Atryb=>Podkreslony);
     end Tlo;
   end Ekran;
@@ -85,7 +85,7 @@ package body Kontroler_Pak is
     for i in Integer range 0..7 loop
       Pos := Y;
       for j in Integer range 0..7 loop
-        case Board(i,j) is
+        case Board(7-i,7-j) is
           when 1 =>
             Ekran.Pisz_XY(Pos,X+i, "B");
             Pos := Pos + 1;
@@ -102,6 +102,7 @@ package body Kontroler_Pak is
         end if;
       end loop;
     end loop;
+    Ekran.Pisz_XY(1,15, "");
   end ArrayToStrPrint;
 
   task body Kontrol is
