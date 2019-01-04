@@ -1,0 +1,17 @@
+project Player_Make is
+
+   package Linker is
+      for Default_Switches ("ada") use ("-g");
+   end Linker;
+
+   package Builder is
+      for Default_Switches ("ada") use ("-g");
+   end Builder;
+
+   package Compiler is
+      for Default_Switches ("ada") use ("-g");
+   end Compiler;
+
+   for Main use ("player1.adb", "player2.adb");
+
+end Player_Make;
