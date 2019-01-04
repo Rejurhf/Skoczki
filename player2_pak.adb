@@ -1,6 +1,9 @@
 -- Rejurhf
 -- 4.01.2019
 
+-- coments in player1
+
+
 with Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Calendar,
   Ada.Float_Text_IO, Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded,
   Ada.Text_IO.Unbounded_Io;

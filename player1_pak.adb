@@ -9,10 +9,13 @@ use Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Float_Text_IO,
   Ada.Text_IO.Unbounded_Io;
 
 package body Player1_Pak is
+  -- Type for board
   type Array2DType is array (0..7, 0..7) of Integer;
+  -- Type with words style
   type Atrybuty is (Czysty, Jasny, Podkreslony, Negatyw, Migajacy, Szary);
 
   protected Ekran  is
+    -- Printing in console
     procedure Pisz_XY(X,Y: Positive; S: String; Atryb : Atrybuty := Czysty);
     procedure Pisz_Float_XY(X, Y: Positive;
                             Num: Float;
@@ -106,12 +109,15 @@ package body Player1_Pak is
   end ArrayToStrPrint;
 
   function GetInput(StartingPoint : Natural) return String is
+    -- get input (fe. a8), StartingPoint is position where input will be shown
+    -- number of line
     Input  : String (1..10);
     Output : String (1..10);
     len    : Natural := 0;
     Flag   : Boolean := False;
   begin
     while (Flag = False) loop
+      -- clean line before next input
       Ekran.Pisz_XY(1,StartingPoint, 20*' ', Atryb=>Czysty);
       Ekran.Pisz_XY(1,StartingPoint, ">: " );
       Get_Line(Input, len);
@@ -124,6 +130,7 @@ package body Player1_Pak is
       elsif len >= 2 and (Input(1) >= '1' and Input(1) <= '8') then
         if ((Input(2) >= 'a' and Input(2) <= 'h') or
             (Input(2) >= 'A' and Input(2) <= 'H')) then
+          -- invert position of input (8a -> a8)
           Output(1) := Input(2);
           Output(2) := Input(1);
           Flag := True;
@@ -134,6 +141,7 @@ package body Player1_Pak is
   end GetInput;
 
   function ConvertToPos(C : Character) return Integer is
+    -- convert character to integer (a->0, 8->0, h->7, 1->7)
   begin
     case C is
       when '8' => return 0;
@@ -165,19 +173,26 @@ package body Player1_Pak is
   end ConvertToPos;
 
   procedure MovePawn(Board : in out Array2DType) is
+    -- moving Pawns
+    -- Input of Pawn and Goal in string
     Pawn,Goal : String (1..10);
+    -- Positions from where and where to move Pawn
     X1,X2,Y1,Y2 : Integer;
+    -- values of positions
     PawnVal, GoalVal : Integer;
   begin
+    -- clean before input
     Ekran.Pisz_XY(1,13, 20*' ', Atryb=>Czysty);
     Ekran.Pisz_XY(1,14, 20*' ', Atryb=>Czysty);
     Pawn := GetInput(13);
     Goal := GetInput(14);
+    -- convert input to integers
     X1 := ConvertToPos(Pawn(2));
     Y1 := ConvertToPos(Pawn(1));
     X2 := ConvertToPos(Goal(2));
     Y2 := ConvertToPos(Goal(1));
 
+    -- moving pawns
     PawnVal := Board(X1, Y1);
     GoalVal := Board(X2, Y2);
     Board(X1, Y1) := GoalVal;
@@ -189,6 +204,7 @@ package body Player1_Pak is
     Server   : Socket_Type;
     Socket   : Socket_Type;
     Channel  : Stream_Access;
+    -- board init
     Board : Array2DType :=
                         (0 => (0, 2, 0, 2, 0, 2, 0, 2),
                         1 => (2, 0, 2, 0, 2, 0, 2, 0),
@@ -214,11 +230,13 @@ package body Player1_Pak is
     Ekran.Tlo;
     ArrayToStrPrint(3,4, Board);
     loop
+      -- get board prom player2 and print
       Board := Array2DType'Input(Channel);
       ArrayToStrPrint(3,4, Board);
+      -- move pawn and print
       MovePawn(Board);
       ArrayToStrPrint(3,4, Board);
-      --  Komunikat do: Sensor
+      --  send board to player1
       Array2DType'Output (Channel, Board);
     end loop;
   exception
