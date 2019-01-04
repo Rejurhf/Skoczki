@@ -113,7 +113,7 @@ package body Sensor_Pak is
 
   function GetInput(StartingPoint : Natural) return String is
     Input  : String (1..10);
-    Output : String (1..2);
+    Output : String (1..10);
     len    : Natural := 0;
     Flag   : Boolean := False;
   begin
@@ -121,16 +121,17 @@ package body Sensor_Pak is
       Ekran.Pisz_XY(1,StartingPoint, 20*' ', Atryb=>Czysty);
       Ekran.Pisz_XY(1,StartingPoint, ">: " );
       Get_Line(Input, len);
+      Output := Input;
       if len >= 2 and ((Input(1) >= 'a' and Input(1) <= 'h') or
                        (Input(1) >= 'A' and Input(1) <= 'H')) then
         if (Input(2) >= '1' and Input(2) <= '8') then
-          Output := Input(1) & Input(2);
           Flag := True;
         end if;
       elsif len >= 2 and (Input(1) >= '1' and Input(1) <= '8') then
         if ((Input(2) >= 'a' and Input(2) <= 'h') or
             (Input(2) >= 'A' and Input(2) <= 'H')) then
-          Output := Input(2) & Input(1);
+          Output(1) := Input(2);
+          Output(2) := Input(1);
           Flag := True;
         end if;
       end if;
@@ -141,28 +142,28 @@ package body Sensor_Pak is
   function ConvertToPos(C : Character) return Integer is
   begin
     case C is
-      when '1' => return 0;
+      when '8' => return 0;
       when 'A' => return 0;
       when 'a' => return 0;
-      when '2' => return 1;
+      when '7' => return 1;
       when 'B' => return 1;
       when 'b' => return 1;
-      when '3' => return 2;
+      when '6' => return 2;
       when 'C' => return 2;
       when 'c' => return 2;
-      when '4' => return 3;
+      when '5' => return 3;
       when 'D' => return 3;
       when 'd' => return 3;
-      when '5' => return 4;
+      when '4' => return 4;
       when 'E' => return 4;
       when 'e' => return 4;
-      when '6' => return 5;
+      when '3' => return 5;
       when 'F' => return 5;
       when 'f' => return 5;
-      when '7' => return 6;
+      when '2' => return 6;
       when 'G' => return 6;
       when 'g' => return 6;
-      when '8' => return 7;
+      when '1' => return 7;
       when 'H' => return 7;
       when 'h' => return 7;
       when others => return 7;
@@ -176,10 +177,10 @@ package body Sensor_Pak is
   begin
     Pawn := GetInput(15);
     Goal := GetInput(16);
-    X1 := ConvertToPos(Pawn(1));
-    Y1 := ConvertToPos(Pawn(2));
-    X2 := ConvertToPos(Goal(1));
-    Y2 := ConvertToPos(Goal(2));
+    X1 := ConvertToPos(Pawn(2));
+    Y1 := ConvertToPos(Pawn(1));
+    X2 := ConvertToPos(Goal(2));
+    Y2 := ConvertToPos(Goal(1));
 
     PawnVal := Board(X1, Y1);
     GoalVal := Board(X2, Y2);
