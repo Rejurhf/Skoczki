@@ -173,30 +173,141 @@ package body Player1_Pak is
   end ConvertToPos;
 
   procedure MovePawn(Board : in out Array2DType) is
-    -- moving Pawns
+    -- checking if move is correct within rules
     -- Input of Pawn and Goal in string
     Pawn,Goal : String (1..10);
     -- Positions from where and where to move Pawn
     X1,X2,Y1,Y2 : Integer;
     -- values of positions
     PawnVal, GoalVal : Integer;
+    -- direction of move
+    Left, Right : Boolean;
+    -- is move allowed
+    Move : Boolean;
+    -- boolean to exit for loop
+    ExitLoop : Boolean;
   begin
     -- clean before input
     Ekran.Pisz_XY(1,13, 20*' ', Atryb=>Czysty);
     Ekran.Pisz_XY(1,14, 20*' ', Atryb=>Czysty);
+    Left := False;
+    Right := False;
+    Move := False;
+    ExitLoop := False;
+      
     Pawn := GetInput(13);
-    Goal := GetInput(14);
+      
     -- convert input to integers
     X1 := ConvertToPos(Pawn(2));
     Y1 := ConvertToPos(Pawn(1));
-    X2 := ConvertToPos(Goal(2));
-    Y2 := ConvertToPos(Goal(1));
-
-    -- moving pawns
-    PawnVal := Board(X1, Y1);
-    GoalVal := Board(X2, Y2);
-    Board(X1, Y1) := GoalVal;
-    Board(X2, Y2) := PawnVal;
+      
+    if Board(X1, Y1) = 1 then
+        Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+        Ekran.Pisz_XY(1,16, "To nie twoj pionek");
+        MovePawn(Board);
+    elsif Board(X1, Y1) = 0 then
+        Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+        Ekran.Pisz_XY(1,16, "Nie ma tam zadnego pionka");
+        MovePawn(Board);
+    else
+	Goal := GetInput(14);
+      
+        -- convert input to integers  
+        X2 := ConvertToPos(Goal(2));
+        Y2 := ConvertToPos(Goal(1));
+        
+        if Y2 > Y1 then
+            Left := True;
+        elsif Y2 < Y1 then
+            Right := True;
+        else
+            Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+            Ekran.Pisz_XY(1,16, "Nie mozesz skoczyc do gory");
+            MovePawn(Board);
+        end if;
+         
+        if Board(X2, Y2) /= 0 then
+            Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+            Ekran.Pisz_XY(1,16, "To miejsce jest zajete");
+            MovePawn(Board);
+        elsif X2 <= X1 then
+            Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+            Ekran.Pisz_XY(1,16, "Mozesz poruszac sie tylko do przodu");
+            MovePawn(Board);
+        elsif ((X2 - X1) = 1) and ((Y2 - Y1) /= 1) and ((Y1 - Y2) /= 1) then
+            Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+            Ekran.Pisz_XY(1,16, "Mozesz przesunac sie tylko o jedno pole");
+            MovePawn(Board);
+        elsif ((X2 - X1) mod 2 = 1) and ((X2 - X1) /= 1) then
+            Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+            Ekran.Pisz_XY(1,16, "Nie mozesz wykonac takiego skoku");
+            MovePawn(Board);
+        elsif (X2 - X1) mod 2 = 0 then
+            if (X2 - X1) /= abs(Y2 - Y1) then
+               Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+               Ekran.Pisz_XY(1,16, "Mozesz skakac tylko w jednym kierunku");
+               MovePawn(Board);
+            end if;
+            if Left then
+               for I in Integer range 1 .. ((Y2 - Y1)/2) loop
+                  if Board(X1 + 2*I - 1, Y1 + 2*I - 1) = 0 then
+                     Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+                     Ekran.Pisz_XY(1,16, "Brakuje pionka na drodze skoku");
+                     ExitLoop := True;
+                  end if;
+                  exit when ExitLoop = True;
+               end loop;
+               if (X2 - X1) > 2 then
+                  for I in Integer range 1 .. ((Y2 - Y1)/2 - 1) loop
+                     if Board(X1 + 2*I, Y1 + 2*I) /= 0 then
+                        Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+                        Ekran.Pisz_XY(1,16, "Pole miedzy pionkami musi byc puste");
+                        ExitLoop := True;
+                     end if;
+                     exit when ExitLoop = True;
+                  end loop;
+               end if;
+               Move := True;
+            elsif Right then
+               for I in Integer range 1 .. ((Y1 - Y2)/2) loop
+                  if Board(X1 + 2*I - 1, Y1 - 2*I + 1) = 0 then
+                     Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+                     Ekran.Pisz_XY(1,16, "Brakuje pionka na drodze skoku");
+                     ExitLoop := True;
+                  end if;
+                  exit when ExitLoop = True;
+               end loop;
+               if (X2 - X1) > 2 then
+                  for I in Integer range 1 .. ((Y1 - Y2)/2 - 1) loop
+                     if Board(X1 + 2*I, Y1 - 2*I) /= 0 then
+                        Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+                        Ekran.Pisz_XY(1,16, "Pole miedzy pionkami musi byc puste");
+                        ExitLoop := True;
+                     end if;
+                     exit when ExitLoop = True;
+                  end loop;
+               end if;
+               Move := True;
+            end if;
+        else
+            Move := True;
+        end if;
+    end if;
+      
+    if ExitLoop = True then
+        Move := False;
+        MovePawn(Board);
+    end if;
+    
+    if Move = True then
+        -- moving pawns
+        PawnVal := Board(X1, Y1);
+        GoalVal := Board(X2, Y2);
+        Board(X1, Y1) := GoalVal;
+        Board(X2, Y2) := PawnVal;
+    end if;
+      
+    Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
   end MovePawn;
 
   task body Kontrol is
