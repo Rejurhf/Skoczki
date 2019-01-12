@@ -3,10 +3,10 @@
 
 with Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Float_Text_IO,
   Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded,
-  Ada.Text_IO.Unbounded_Io;
+  Ada.Text_IO.Unbounded_Io, GNAT.OS_Lib;
 use Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Float_Text_IO,
   Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded,
-  Ada.Text_IO.Unbounded_Io;
+  Ada.Text_IO.Unbounded_Io, GNAT.OS_Lib;
 
 package body Player1_Pak is
   -- Type for board
@@ -135,6 +135,8 @@ package body Player1_Pak is
           Output(2) := Input(1);
           Flag := True;
         end if;
+      elsif len = 1 and (Input(1) = 'q' or Input(1) = 'Q') then
+          GNAT.OS_Lib.OS_Exit (0);
       end if;
     end loop;
     return Output;
@@ -309,6 +311,17 @@ package body Player1_Pak is
       
     Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
   end MovePawn;
+   
+  function CheckIfEnd(Board : in out Array2DType) return Boolean is
+    -- checking if game is finished
+  begin
+    --
+    if Board(6,1) = 2 and Board(6,3) = 2 and Board(6,5) = 2 and Board(6,7) = 2 and Board(7,0) = 2 and Board(7,2) = 2 and Board(7,4) = 2 and Board(7,6) = 2 then
+         return True;
+    else
+         return False;
+    end if;
+  end CheckIfEnd;
 
   task body Kontrol is
     Address  : Sock_Addr_Type;
@@ -316,12 +329,11 @@ package body Player1_Pak is
     Socket   : Socket_Type;
     Channel  : Stream_Access;
     -- board init
-    Board : Array2DType :=
-                        (0 => (0, 2, 0, 2, 0, 2, 0, 2),
-                        1 => (2, 0, 2, 0, 2, 0, 2, 0),
-                        6 => (0, 1, 0, 1, 0, 1, 0, 1),
-                        7 => (1, 0, 1, 0, 1, 0, 1, 0),
-                        others => (0, 0, 0, 0, 0, 0, 0, 0));
+    Board : Array2DType := (0 => (0, 2, 0, 2, 0, 2, 0, 2),
+                            1 => (2, 0, 2, 0, 2, 0, 2, 0),
+                            6 => (0, 1, 0, 1, 0, 1, 0, 1),
+                            7 => (1, 0, 1, 0, 1, 0, 1, 0),
+                            others => (0, 0, 0, 0, 0, 0, 0, 0));
   begin
     Address.Addr := Addresses (Get_Host_By_Name (Host_Name), 1);
     --Address.Addr := Addresses (Get_Host_By_Address(Inet_Addr("10.0.0.1")),1);
@@ -347,6 +359,19 @@ package body Player1_Pak is
       -- move pawn and print
       MovePawn(Board);
       ArrayToStrPrint(3,4, Board);
+      -- checking if game is finished after move and clearing board if needed
+      if CheckIfEnd(Board) then 
+            Ekran.Pisz_XY(1,16, "Wygrales!");
+            Board := (0 => (0, 2, 0, 2, 0, 2, 0, 2),
+                      1 => (2, 0, 2, 0, 2, 0, 2, 0),
+                      6 => (0, 1, 0, 1, 0, 1, 0, 1),
+                      7 => (1, 0, 1, 0, 1, 0, 1, 0),
+                      others => (0, 0, 0, 0, 0, 0, 0, 0));
+            -- waiting 5s to print new cleared board
+            delay 5.0;
+            ArrayToStrPrint(3,4, Board);
+      end if;
+      
       --  send board to player1
       Array2DType'Output (Channel, Board);
     end loop;
