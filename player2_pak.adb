@@ -3,7 +3,6 @@
 
 -- coments in player1
 
-
 with Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Calendar,
   Ada.Float_Text_IO, Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Unbounded,
   Ada.Text_IO.Unbounded_Io, GNAT.OS_Lib;
@@ -14,6 +13,52 @@ use Ada.Text_IO, Ada.Exceptions, GNAT.Sockets, Ada.Calendar,
 package body Player2_Pak is
   type Array2DType is array (0..7, 0..7) of Integer;
   type Atrybuty is (Czysty, Jasny, Podkreslony, Negatyw, Migajacy, Szary);
+  -- var to check if still waiting for input
+  Czekaj : Boolean := False;
+
+  task Connection is
+    entry Start;
+    entry Send(Board : Array2DType);
+    entry Receive(Board : in out Array2DType);
+  end Connection;
+
+  task body Connection is
+    Address : Sock_Addr_Type;
+    Socket  : Socket_Type;
+    Channel : Stream_Access;
+  begin
+    accept Start;
+    Address.Addr := Addresses (Get_Host_By_Name (Host_Name), 1);
+    --Address.Addr := Addresses (Get_Host_By_Address(Inet_Addr("10.0.0.1")),1);
+    --Address.Addr := Inet_Addr("10.0.0.1");
+    --Address.Addr := Addresses (Get_Host_By_Name ("imac.local"), 1);
+    --Address.Addr := Addresses (Get_Host_By_Name ("localhost"), 1);
+    Address.Port := 5876;
+    Put_Line("Host: "&Host_Name);
+    Put_Line("Adres:port => ("&Image(Address)&")");
+    Create_Socket (Socket);
+    Set_Socket_Option (Socket, Socket_Level, (Reuse_Address, True));
+    Connect_Socket (Socket, Address);
+    loop
+      Channel := Stream (Socket);
+      select
+        accept Send(Board : Array2DType) do
+          Array2DType'Output(Channel, Board);
+          Czekaj := True;
+        end Send;
+        or
+        accept Receive(Board : in out Array2DType) do
+          Board := Array2DType'Input (Channel);
+          Czekaj := False;
+        end Receive;
+      end select;
+    end loop;
+  exception
+    when E:others =>
+      Close_Socket (Socket);
+      Put_Line("Error: Zadanie Sensor");
+      Put_Line(Exception_Name (E) & ": " & Exception_Message (E));
+  end Connection;
 
   protected Ekran  is
     procedure Pisz_XY(X,Y: Positive; S: String; Atryb : Atrybuty := Czysty);
@@ -318,32 +363,15 @@ package body Player2_Pak is
   end CheckIfEnd;
 
   task body Sens is
-    Nastepny : Time;
-    Okres   : constant Duration := 1.2;
-    Address : Sock_Addr_Type;
-    Socket  : Socket_Type;
-    Channel : Stream_Access;
     Board : Array2DType := (0 => (0, 2, 0, 2, 0, 2, 0, 2),
                             1 => (2, 0, 2, 0, 2, 0, 2, 0),
                             6 => (0, 1, 0, 1, 0, 1, 0, 1),
                             7 => (1, 0, 1, 0, 1, 0, 1, 0),
                             others => (0, 0, 0, 0, 0, 0, 0, 0));
   begin
-    Nastepny := Clock;
-    Address.Addr := Addresses (Get_Host_By_Name (Host_Name), 1);
-    --Address.Addr := Addresses (Get_Host_By_Address(Inet_Addr("10.0.0.1")),1);
-    --Address.Addr := Inet_Addr("10.0.0.1");
-    --Address.Addr := Addresses (Get_Host_By_Name ("imac.local"), 1);
-    --Address.Addr := Addresses (Get_Host_By_Name ("localhost"), 1);
-    Address.Port := 5876;
-    Put_Line("Host: "&Host_Name);
-    Put_Line("Adres:port => ("&Image(Address)&")");
-    Create_Socket (Socket);
-    Set_Socket_Option (Socket, Socket_Level, (Reuse_Address, True));
-    Connect_Socket (Socket, Address);
+    Connection.Start;
     Ekran.Tlo;
     loop
-      Channel := Stream (Socket);
       --  Send message to kontroler
       ArrayToStrPrint(3,4, Board);
       MovePawn(Board);
@@ -362,15 +390,17 @@ package body Player2_Pak is
             MovePawn(Board);
             ArrayToStrPrint(3,4, Board);
       end if;
-      Array2DType'Output (Channel, Board);
-      --  Receive and print message from Kontroler
-      Board := Array2DType'Input(Channel);
+
+      --  send board to player1
+      Connection.Send(Board);
+
+      -- send recive request
+      Connection.Receive(Board);
+      -- wait till recive input
+      while Czekaj loop
+        delay 0.5;
+      end loop;
     end loop;
-  exception
-    when E:others =>
-      Close_Socket (Socket);
-      -- Put_Line("Error: Zadanie Sensor");
-      -- Put_Line(Exception_Name (E) & ": " & Exception_Message (E));
   end Sens;
 
 end Player2_Pak;
