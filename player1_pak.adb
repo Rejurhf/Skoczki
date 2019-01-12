@@ -57,9 +57,9 @@ package body Player1_Pak is
         end Receive;
       end select;
     end loop;
-  -- exception
-  --   when E:others => Put_Line("Error: Zadanie Kontrol");
-  --   Put_Line(Exception_Name (E) & ": " & Exception_Message (E));
+  exception
+    when E:others => Put_Line("Error: Zadanie Kontrol");
+    Put_Line(Exception_Name (E) & ": " & Exception_Message (E));
   end Connection;
 
 
