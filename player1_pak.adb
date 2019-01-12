@@ -35,13 +35,13 @@ package body Player1_Pak is
     --Address.Addr := Addresses (Get_Host_By_Name ("imac.local"), 1);
     --Address.Addr := Addresses (Get_Host_By_Name ("localhost"), 1);
     Address.Port := 5876;
-    Put_Line("Host: "&Host_Name);
-    Put_Line("Adres:port = ("&Image(Address)&")");
+    -- Put_Line("Host: "&Host_Name);
+    -- Put_Line("Adres:port = ("&Image(Address)&")");
     Create_Socket (Server);
     Set_Socket_Option (Server, Socket_Level, (Reuse_Address, True));
     Bind_Socket (Server, Address);
     Listen_Socket (Server);
-    Put_Line ( "Player1: czekam na Player2....");
+    -- Put_Line ( "Player1: czekam na Player2....");
     Accept_Socket (Server, Socket, Address);
     Channel := Stream (Socket);
     loop

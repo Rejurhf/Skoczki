@@ -34,8 +34,8 @@ package body Player2_Pak is
     --Address.Addr := Addresses (Get_Host_By_Name ("imac.local"), 1);
     --Address.Addr := Addresses (Get_Host_By_Name ("localhost"), 1);
     Address.Port := 5876;
-    Put_Line("Host: "&Host_Name);
-    Put_Line("Adres:port => ("&Image(Address)&")");
+    -- Put_Line("Host: "&Host_Name);
+    -- Put_Line("Adres:port => ("&Image(Address)&")");
     Create_Socket (Socket);
     Set_Socket_Option (Socket, Socket_Level, (Reuse_Address, True));
     Connect_Socket (Socket, Address);
