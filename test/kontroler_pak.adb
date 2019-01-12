@@ -19,6 +19,7 @@ package body Kontroler_Pak is
     Socket   : Socket_Type;
     Channel  : Stream_Access;
   begin
+    accept Start;
     Address.Addr := Addresses (Get_Host_By_Name (Host_Name), 1);
     --Address.Addr := Addresses (Get_Host_By_Address(Inet_Addr("10.0.0.1")),1);
     --Address.Addr := Inet_Addr("10.0.0.1");
