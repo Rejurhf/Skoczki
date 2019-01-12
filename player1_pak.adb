@@ -43,7 +43,7 @@ package body Player1_Pak is
       Put( Esc_XY(X,Y) & S);
       Put( ASCII.ESC & "[0m");
     end Pisz_XY;
-
+    
     procedure Pisz_Float_XY(X, Y: Positive;
                             Num: Float;
                             Pre: Natural := 3;
@@ -194,13 +194,13 @@ package body Player1_Pak is
     Right := False;
     Move := False;
     ExitLoop := False;
-      
+
     Pawn := GetInput(13);
-      
+
     -- convert input to integers
     X1 := ConvertToPos(Pawn(2));
     Y1 := ConvertToPos(Pawn(1));
-      
+
     if Board(X1, Y1) = 1 then
         Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
         Ekran.Pisz_XY(1,16, "To nie twoj pionek");
@@ -211,11 +211,11 @@ package body Player1_Pak is
         MovePawn(Board);
     else
 	Goal := GetInput(14);
-      
-        -- convert input to integers  
+
+        -- convert input to integers
         X2 := ConvertToPos(Goal(2));
         Y2 := ConvertToPos(Goal(1));
-        
+
         if Y2 > Y1 then
             Left := True;
         elsif Y2 < Y1 then
@@ -225,7 +225,7 @@ package body Player1_Pak is
             Ekran.Pisz_XY(1,16, "Nie mozesz skoczyc do gory");
             MovePawn(Board);
         end if;
-         
+
         if Board(X2, Y2) /= 0 then
             Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
             Ekran.Pisz_XY(1,16, "To miejsce jest zajete");
@@ -293,12 +293,12 @@ package body Player1_Pak is
             Move := True;
         end if;
     end if;
-      
+
     if ExitLoop = True then
         Move := False;
         MovePawn(Board);
     end if;
-    
+
     if Move = True then
         -- moving pawns
         PawnVal := Board(X1, Y1);
@@ -306,7 +306,7 @@ package body Player1_Pak is
         Board(X1, Y1) := GoalVal;
         Board(X2, Y2) := PawnVal;
     end if;
-      
+
     Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
   end MovePawn;
 

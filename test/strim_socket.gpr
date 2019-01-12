@@ -15,3 +15,4 @@ project Strim_Socket is
    for Main use ("kontroler.adb", "sensor.adb");
 
 end Strim_Socket;
+
