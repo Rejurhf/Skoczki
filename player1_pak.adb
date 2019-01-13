@@ -15,11 +15,14 @@ package body Player1_Pak is
   type Atrybuty is (Czysty, Jasny, Podkreslony, Negatyw, Migajacy, Szary);
   -- var to check if still waiting for input
   Czekaj : Boolean := False;
+  GameEnd : Boolean := False;
 
   task Connection is
     entry Start;
     entry Send(Board : Array2DType);
     entry Receive(Board : in out Array2DType);
+    entry SendBool(GameEnd : Boolean);
+    entry ReceiveBool(GameEnd : in out Boolean);
   end Connection;
 
   task body Connection is
@@ -55,6 +58,14 @@ package body Player1_Pak is
           Board := Array2DType'Input (Channel);
           Czekaj := False;
         end Receive;
+        or
+        accept SendBool(GameEnd : Boolean) do
+          Boolean'Output(Channel, GameEnd);
+        end SendBool;
+        or
+        accept ReceiveBool(GameEnd : in out Boolean) do
+          GameEnd := Boolean'Input (Channel);
+        end ReceiveBool;
       end select;
     end loop;
   exception
@@ -373,16 +384,31 @@ package body Player1_Pak is
   end CheckIfEnd;
 
   task body Kontrol is
-    Board : Array2DType := (0 => (0, 2, 0, 2, 0, 2, 0, 2),
-                            1 => (2, 0, 2, 0, 2, 0, 2, 0),
-                            6 => (0, 1, 0, 1, 0, 1, 0, 1),
-                            7 => (1, 0, 1, 0, 1, 0, 1, 0),
+    Board : Array2DType := (0 => (0, 1, 0, 1, 0, 1, 0, 1),
+                            1 => (1, 0, 1, 0, 1, 0, 0, 0),
+                            2 => (0, 0, 0, 0, 0, 0, 0, 1),
+                            4 => (0, 2, 0, 2, 0, 2, 0, 2),
+                            5 => (2, 0, 2, 0, 2, 0, 2, 0),
                             others => (0, 0, 0, 0, 0, 0, 0, 0));
   begin
     Connection.Start;
     Ekran.Tlo;
     ArrayToStrPrint(3,4, Board);
     loop
+
+      Connection.ReceiveBool(GameEnd);
+      if GameEnd then
+            Ekran.Pisz_XY(1,16, "Przegrales. Gra zaraz rozpocznie sie od nowa");
+            GameEnd := False;
+            Connection.Receive(Board);
+            delay 0.5;
+            ArrayToStrPrint(3,4, Board);
+            Connection.Receive(Board);
+            delay 0.5;
+            ArrayToStrPrint(3,4, Board);
+            Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
+      end if;
+
       -- get board prom player2 and print
       -- send recive request
       Connection.Receive(Board);
@@ -396,7 +422,10 @@ package body Player1_Pak is
       ArrayToStrPrint(3,4, Board);
       -- checking if game is finished after move and clearing board if needed
       if CheckIfEnd(Board) then
-            Ekran.Pisz_XY(1,16, "Wygrales!");
+            Ekran.Pisz_XY(1,16, "Wygrales! Gra zaraz rozpocznie sie od nowa");
+            GameEnd := True;
+            Connection.SendBool(GameEnd);
+            Connection.Send(Board);
             Board := (0 => (0, 2, 0, 2, 0, 2, 0, 2),
                       1 => (2, 0, 2, 0, 2, 0, 2, 0),
                       6 => (0, 1, 0, 1, 0, 1, 0, 1),
@@ -404,11 +433,20 @@ package body Player1_Pak is
                       others => (0, 0, 0, 0, 0, 0, 0, 0));
             -- waiting 5s to print new cleared board
             delay 5.0;
+            Connection.Send(Board);
             ArrayToStrPrint(3,4, Board);
+            Ekran.Pisz_XY(1,16, 50*' ', Atryb=>Czysty);
       end if;
+
+      if GameEnd = False then
+            Connection.SendBool(GameEnd);
+      end if;
+
+      GameEnd := False;
 
       --  send board to player1
       Connection.Send(Board);
+
     end loop;
   exception
     when E:others => Put_Line("Error: Zadanie Kontrol");
